@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body shadow">
+            <div class="container text-center">
+                <h1 class="mt-2">Register Here!</h1>
+            </div>
+            <p></p>
+            <div class="container">
+                <form class="form" method="POST" action="{% url 'register_url' %}">
+                    {% csrf_token %}
+    
+                    <div class=" alert alert-warning alert-dismissable fade show " style=" display: {% if not registerform.non_field_errors %}none{% endif %}" role="alert">
+                        {% for error in registerform.non_field_errors %}
+                        <p class="text-center">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                    </div>
+                    <p></p>
+                    {% for field in registerform %}
+                        <div class="form-group">
+                            {% render_field field  class="input-field form-control" placeholder=field.label %}
+                            <p></p>
+                            <div class="alert alert-warning alert-dismissable fade show" style="display: {% if not field.errors %} none {% endif %}" role = "alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                {% for error in field.errors %}
+                                <p class="help-block">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+            
+                    <div class="form-group text-center">
+                        <!--<a href="#" class="linktext">Forgot Password</a>-->
+                        <input type="submit" name="submit" class="input-submit mt-2 btn btn-primary" value="Register">
+                    </div>
+                </form>
+                <p></p>
+                <div class="d-flex">
+                    <p>Already has an account?</p>
+                    <a href="{% url 'login' %}" class="link-text">Login Here</a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
