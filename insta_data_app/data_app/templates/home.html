@@ -79,6 +79,10 @@
                 <p>
                     Bio: {{ item.bio }}
                 </p>
+                <p>
+                    Genre: {{ item.genere }}
+                </p>
+                <p></p>
             </div>
 
             <hr>
@@ -137,31 +141,7 @@
         }
     }
 
-    function min_followers_function()
-    {
-        let value = document.getElementById("formControlRange").value;
-        document.getElementById("min_followers_value").innerText = value;
 
-        let max_value = document.getElementById("formControlRange1");
-        if(value > max_value.value)
-        {
-            max_value.value = value;
-            document.getElementById("max_followers_value").innerText = value;
-        }
-    }
-
-    function max_followers_function()
-    {
-        let value = document.getElementById("formControlRange1").value;
-        document.getElementById("max_followers_value").innerText = value;
-
-        let min_value = document.getElementById("formControlRange");
-        if(value < min_value.value)
-        {
-            min_value.value = value;
-            document.getElementById("min_followers_value").innerText = value;
-        }
-    }
 
     function function2()
     {
@@ -182,35 +162,69 @@
         }
     }
 
-    function min_followees_function()
-    {
-        let value = document.getElementById("formControlRange2").value;
-        document.getElementById("min_followees_value").innerText = value;
 
-        let max_value = document.getElementById("formControlRange3");
-        if(value > max_value.value)
-        {
-            max_value.value = value;
-            document.getElementById("max_followees_value").innerText = value;
-        }
-    }
 
-    function max_followees_function()
+</script>
+
+<script>
+        function max_followees_function()
     {
         let value = document.getElementById("formControlRange3").value;
         document.getElementById("max_followees_value").innerText = value;
 
         let min_value = document.getElementById("formControlRange2");
-        if(value < min_value.value)
+        if(Number(value) < Number(min_value.value))
         {
             min_value.value = value;
             document.getElementById("min_followees_value").innerText = value;
         }
     }
-
 </script>
 
+<script>
+        function min_followees_function()
+    {
+        let value = document.getElementById("formControlRange2").value;
+        document.getElementById("min_followees_value").innerText = value;
 
+        let max_value = document.getElementById("formControlRange3");
+        if(Number(value) > Number(max_value.value))
+        {
+            max_value.value = value;
+            document.getElementById("max_followees_value").innerText = value;
+        }
+    }
+</script>
+
+<script>
+        function max_followers_function()
+    {
+        let value = document.getElementById("formControlRange1").value;
+        document.getElementById("max_followers_value").innerText = value;
+
+        let min_value = document.getElementById("formControlRange");
+        if(Number(value) < Number(min_value.value))
+        {
+            min_value.value = value;
+            document.getElementById("min_followers_value").innerText = value;
+        }
+    }
+</script>
+
+<script>
+        function min_followers_function()
+    {
+        let value = document.getElementById("formControlRange").value;
+        document.getElementById("min_followers_value").innerText = value;
+
+        let max_value = document.getElementById("formControlRange1");
+        if(Number(value) >Number( max_value.value))
+        {
+            max_value.value = value;
+            document.getElementById("max_followers_value").innerText = value;
+        }
+    }
+</script>
 
 
 {% endblock %}

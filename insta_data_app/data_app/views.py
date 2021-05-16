@@ -48,7 +48,8 @@ def register(request):
         form = User_registration_form(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            messages.success(request, "Account Created Successfully! Please Login to continue..")
+            return redirect('login')
         else:
             #errors = form.errors
             form = User_registration_form(request.POST)
