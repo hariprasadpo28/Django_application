@@ -1,6 +1,6 @@
 import pandas as pd
 from geotext import GeoText
-#from instaloader import Instaloader, Profile
+from instaloader import Instaloader, Profile
 
 instance = Instaloader()
 instance.login("username", "password")
