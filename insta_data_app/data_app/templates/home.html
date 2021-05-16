@@ -1,10 +1,217 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
 
-<div class="container text-center">
-    <h1 class="mt-2">Profiles</h1>
+<div class="container text-center mt-2">
+    <div class="card shadow" >
+        <div class="card-body ">
+            <h1 class="">Profiles</h1>
+        </div>
+    </div>
 </div>
+<p></p>
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="" >
+
+                <div>
+                    <form method="POST" action="{% url 'home' %}">
+                        {% csrf_token %}
+                        <h6>
+                            Filter by <input type="checkbox" name="filter_by" id="filter_by_1" value="Followers" onchange="function1()">  Followers  <input type="checkbox" name="filter_by" id="filter_by_2" value="Followees" onchange="function2()">  Following
+                        </h6>
+                        <div class="form-group" id="followers_div" style="display: none;" >
+                            <div class="row">
+                                <div class="col" >
+                                    <div class="d-flex" ><label for="formControlRange" id="min_followers_id" >Minimum Followers : </label><p id="min_followers_value">0</p></div  >
+                                    
+                                    <input type="range" value="0"  min="0" max="10000000" step="1000" name="min_followers_value" class="form-control-range" id="formControlRange" oninput="min_followers_function()">
+                                </div>
+
+                                <div class="col">
+                                    <div class="d-flex" ><label for="formControlRange1" id="max_followers_id" >Maximum Followers : </label><p id="max_followers_value">0</p></div  >
+                                    <input type="range" value="0" min="0" max="10000000" step="1000" name="max_followers_value" class="form-control-range" id="formControlRange1" oninput="max_followers_function()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <p></p>
+                        <div class="form-group" id="followees_div" style="display: none;" >
+                            <div class="row">
+                                <div class="col" >
+                                    <div class="d-flex" ><label for="formControlRange" id="min_followees_id" >Minimum Followees : </label><p id="min_followees_value">0</p></div  >
+                                    
+                                    <input type="range" value="0"  min="0" max="1000000" step="100" name="min_followees_value" class="form-control-range" id="formControlRange2" oninput="min_followees_function()">
+                                </div>
+
+                                <div class="col">
+                                    <div class="d-flex" ><label for="formControlRange1" id="max_followees_id" >Maximum Followees : </label><p id="max_followees_value">0</p></div  >
+                                    <input type="range" value="0" min="0" max="1000000" step="100" name="max_followees_value" class="form-control-range" id="formControlRange3" oninput="max_followees_function()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" id="submit_button_id" style="display: none;" >Filter Profiles</button>
+
+                    </form>
+                </div>
+            </div>
+            <hr>
+            {% for item in page %}
+            <h4>
+                {{ item.name  }}
+            </h4>
+            <div class="container">
+                <p>
+                    Followers: {{ item.follower_count }}
+                </p>
+                <p>
+                    Following: {{ item.following_count }}
+                </p>
+                <p>
+                    Contact: {{ item.contact_details }}
+                </p>
+                <p>
+                    City: {{ item.city }}
+                </p>
+                <p>
+                    Bio: {{ item.bio }}
+                </p>
+            </div>
+
+            <hr>
+            {% endfor %}
+        </div>
+
+        <div class="text-center" >
+            <div class="d-flex justify-content-center">
+                {% if page.has_previous %}
+                <p>
+                    <a href="{% url 'home' %}?page={{ page.previous_page_number }}" class=" btn btn-primary mr-2" >Previous</a>
+                </p>
+                
+                {% else %}
+                <p>
+                    <button disabled class=" btn btn-secondary mr-2" >Previous</button>
+                </p>
+
+                {% endif %}
+
+                <p class=" btn btn-success mr-2">Page {{page.number}}</p>
+
+                {% if page.has_next %}
+                <p>
+                    <a href="{% url 'home' %}?page={{ page.next_page_number }}" class=" btn btn-primary mr-2">Next</a>
+                </p>
+                {% else %}
+                <p>
+                    <button disabled class=" btn btn-secondary mr-2">Next</button>
+                </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <p></p>
+</div>
+
+<script>
+    function function1()
+    {
+        let check = document.getElementById("filter_by_1");
+        if(check.checked){
+            console.log("checked")
+            document.getElementById("followers_div").style.display = "block";
+            document.getElementById("submit_button_id").style.display = "block";
+        }
+        else{
+            if(document.getElementById("filter_by_2").checked)
+            {
+                document.getElementById("submit_button_id").style.display = "block"; 
+            }
+            else{
+                document.getElementById("submit_button_id").style.display = "none"; 
+            }
+            document.getElementById("followers_div").style.display = "none";   
+        }
+    }
+
+    function min_followers_function()
+    {
+        let value = document.getElementById("formControlRange").value;
+        document.getElementById("min_followers_value").innerText = value;
+
+        let max_value = document.getElementById("formControlRange1");
+        if(value > max_value.value)
+        {
+            max_value.value = value;
+            document.getElementById("max_followers_value").innerText = value;
+        }
+    }
+
+    function max_followers_function()
+    {
+        let value = document.getElementById("formControlRange1").value;
+        document.getElementById("max_followers_value").innerText = value;
+
+        let min_value = document.getElementById("formControlRange");
+        if(value < min_value.value)
+        {
+            min_value.value = value;
+            document.getElementById("min_followers_value").innerText = value;
+        }
+    }
+
+    function function2()
+    {
+        let check = document.getElementById("filter_by_2");
+        if(check.checked){
+            console.log("checked")
+            document.getElementById("followees_div").style.display = "block";
+            document.getElementById("submit_button_id").style.display = "block";
+        }
+        else{
+            if(document.getElementById("filter_by_1").checked){
+                document.getElementById("submit_button_id").style.display = "block";
+            }
+            else{
+                document.getElementById("submit_button_id").style.display = "none";
+            }
+            document.getElementById("followees_div").style.display = "none";   
+        }
+    }
+
+    function min_followees_function()
+    {
+        let value = document.getElementById("formControlRange2").value;
+        document.getElementById("min_followees_value").innerText = value;
+
+        let max_value = document.getElementById("formControlRange3");
+        if(value > max_value.value)
+        {
+            max_value.value = value;
+            document.getElementById("max_followees_value").innerText = value;
+        }
+    }
+
+    function max_followees_function()
+    {
+        let value = document.getElementById("formControlRange3").value;
+        document.getElementById("max_followees_value").innerText = value;
+
+        let min_value = document.getElementById("formControlRange2");
+        if(value < min_value.value)
+        {
+            min_value.value = value;
+            document.getElementById("min_followees_value").innerText = value;
+        }
+    }
+
+</script>
+
+
+
 
 {% endblock %}
 

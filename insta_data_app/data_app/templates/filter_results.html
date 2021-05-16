@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container text-center mt-2">
+    <div class="card shadow" >
+        <div class="card-body ">
+            <h1 class="">Profiles</h1>
+        </div>
+        <div>
+            <p>
+                Filtered Profiles: There are {% if number == 0 %} no {% else %} {{ number }} {% endif %}profiles matching your requirements
+            </p>
+        </div>
+    </div>
+</div>
+<p></p>
+<div class="container">
+    <div class="card shadow">
+        <div class="card-body">
+            {% for item in page %}
+            <h4>
+                {{ item.name  }}
+            </h4>
+            <div class="container">
+                <p>
+                    Followers: {{ item.follower_count }}
+                </p>
+                <p>
+                    Following: {{ item.following_count }}
+                </p>
+                <p>
+                    Contact: {{ item.contact_details }}
+                </p>
+                <p>
+                    City: {{ item.city }}
+                </p>
+                <p>
+                    Bio: {{ item.bio }}
+                </p>
+            </div>
+
+            <hr>
+            {% endfor %}
+        </div>
+
+    </div>
+    <p></p>
+</div>
+
+
+
+
+
+{% endblock %}
+

@@ -4,11 +4,39 @@ from django.contrib.auth import authenticate,login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import User_registration_form
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage
+from .models import Insta_profiles
 
 # Create your views here.
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    if request.method == "POST":
+        a = request.POST.getlist("filter_by")
+        query = Insta_profiles.objects.all()
+        print(request.POST['max_followers_value'])
+        print(type(int(request.POST['max_followers_value'])))
+        for i in a:
+            if i == "Followers":
+                query = Insta_profiles.objects.filter(follower_count__lte = int(request.POST['max_followers_value'])).filter(follower_count__gte = int(request.POST['min_followers_value']))
+                print(len(query))
+            elif i == "Followees":
+                query = query.filter(following_count__lte = int(request.POST['max_followees_value'])).filter( following_count__gte = int(request.POST['min_followees_value']))
+
+        number = len(query)
+        return render(request, "filter_results.html", {"page":query, "number":number})
+
+    else:
+        profiles = Insta_profiles.objects.all()
+        p = Paginator(profiles, 10)
+        page_num = request.GET.get('page',1)
+       
+        try:
+            page = p.page(page_num)
+
+        except EmptyPage:
+            page = p.page(1)
+
+    return render(request, 'home.html', {"page":page})
 
 
 def register(request):
