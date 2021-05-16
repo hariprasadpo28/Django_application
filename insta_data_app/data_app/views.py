@@ -41,9 +41,11 @@ def login_view(request):
  
         if user is not None:
             login(request, user)
+            messages.success(request, "Login Successful!")
             return redirect('home')
         else:
             form = AuthenticationForm(request.POST)
+            messages.warning(request, "Invalid Credentials")
             return render(request,'login.html',{'login_form':form})
      
     else:
